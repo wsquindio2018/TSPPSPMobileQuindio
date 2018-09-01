@@ -7,8 +7,19 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.worldskills.tsppspmobile.R;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +40,24 @@ public class TimeLog extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    //Variables y componentes
+
+    Spinner listaPhase;
+    ArrayList arrayPhase;
+    Button registrar,btnStart,btnStop;
+    TextView campoDelta,campoStart,campoStop;
+    EditText campoInterruption,campoComments;
+
+    String phaseR;
+    String deltaR;
+    String startR;
+    String stopR;
+    String commentsR;
+
+    String delta1;
+    String delta2;
+    int interruption = 0;
 
     public TimeLog() {
         // Required empty public constructor
@@ -64,8 +93,92 @@ public class TimeLog extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_time_log, container, false);
+        View vista = inflater.inflate(R.layout.fragment_time_log, container, false);
+
+        arrayPhase = new ArrayList();
+        arrayPhase.add("Seleccione una fase");
+        arrayPhase.add("PLAN");
+        arrayPhase.add("DLD");
+        arrayPhase.add("CODE");
+        arrayPhase.add("COMPILE");
+        arrayPhase.add("UT");
+        arrayPhase.add("PM");
+
+        campoStart = vista.findViewById(R.id.campoStartTime);
+        campoStop = vista.findViewById(R.id.campoStopTime);
+        campoComments = vista.findViewById(R.id.campoCommentsTime);
+        campoDelta = vista.findViewById(R.id.campoDeltaTime);
+        campoInterruption = vista.findViewById(R.id.campoInterruptionTime2);
+        registrar = vista.findViewById(R.id.btnRegistrarTime);
+        registrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                capturarDatos();
+                registrarTime();
+            }
+        });
+        btnStart = vista.findViewById(R.id.btnStartTime);
+        btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                asignar1();
+            }
+        });
+        btnStop  = vista.findViewById(R.id.btnStopTime);
+        btnStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                asignar2();
+            }
+        });
+        listaPhase = vista.findViewById(R.id.spinnerPhase);
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(getContext(),R.layout.support_simple_spinner_dropdown_item,arrayPhase);
+        listaPhase.setAdapter(adapter);
+        listaPhase.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != 0){
+                    phaseR = arrayPhase.get(position).toString();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                phaseR = null;
+            }
+        });
+
+        return vista;
+    }
+
+    private void capturarDatos() {
+        startR = campoStart.getText().toString();
+        stopR = campoStop.getText().toString();
+        commentsR = campoComments.getText().toString();
+    }
+
+    private void asignar1() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat dat = new SimpleDateFormat("mm", Locale.getDefault());
+        Date date = new Date();
+        String fecha1 = dateFormat.format(date);
+        delta1 = dateFormat.format(date);
+        campoStart.setText(fecha1);
+    }
+
+    private void asignar2() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat dat = new SimpleDateFormat("mm", Locale.getDefault());
+        Date date = new Date();
+        String fecha2 = dateFormat.format(date);
+        delta2 = dateFormat.format(date);
+        campoStart.setText(fecha2);
+        //calcularDelta();
+    }
+
+
+    private void registrarTime() {
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

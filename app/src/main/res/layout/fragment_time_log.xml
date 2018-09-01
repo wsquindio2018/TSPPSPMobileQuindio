@@ -7,6 +7,18 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+    <EditText
+        android:id="@+id/campoCommentsTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="74dp"
+        android:gravity="center_vertical"
+        android:hint="Motivo de la interrupcion"
+        android:inputType="number"
+        android:textAlignment="center" />
+
     <Spinner
         android:id="@+id/spinnerPhase"
         android:layout_width="match_parent"
@@ -27,8 +39,59 @@
     <TextView
         android:id="@+id/campoStartTime"
         android:layout_width="251dp"
+        android:gravity="center_vertical"
         android:layout_height="43dp"
         android:layout_alignBottom="@+id/btnStartTime"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="22dp" />
+
+    <EditText
+        android:id="@+id/campoInterruptionTime2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:gravity="center_vertical"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="173dp"
+        android:hint="Ingrese el tiempod e interrupcion"
+        android:inputType="number"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/btnStopTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="219dp"
+        android:text="Stop" />
+
+    <TextView
+        android:id="@+id/campoStopTime"
+        android:layout_width="255dp"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:layout_alignStart="@+id/campoStartTime"
+        android:layout_alignTop="@+id/btnStopTime" />
+
+    <TextView
+        android:id="@+id/campoDeltaTime"
+        android:layout_width="326dp"
+        android:layout_height="45dp"
+        android:layout_alignEnd="@+id/btnStartTime"
+        android:textAlignment="center"
+        android:gravity="center_vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="137dp"
+        android:layout_marginEnd="-268dp"
+        android:text="Tiempo delta" />
+
+    <Button
+        android:id="@+id/btnRegistrarTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:text="Registrar" />
+
 </RelativeLayout>
