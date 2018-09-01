@@ -21,8 +21,8 @@ public class MenuOpciones extends AppCompatActivity {
     }
 
     public void onClick(View view) {
-        Intent sumary = new Intent(getApplicationContext(),ProjectPlanSumary.class);
-        Intent opcion = new Intent(getApplicationContext(),Opcion.class);
+        Intent sumary = new Intent(MenuOpciones.this,ProjectPlanSumary.class);
+        Intent opcion = new Intent(MenuOpciones.this,Opcion.class);
         Bundle bundle = new Bundle();
 
         switch (view.getId()){

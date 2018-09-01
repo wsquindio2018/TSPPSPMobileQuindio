@@ -1,5 +1,6 @@
 package com.example.worldskills.tsppspmobile.fragments_menu;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.worldskills.tsppspmobile.R;
+import com.example.worldskills.tsppspmobile.entidades.Puente;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -57,6 +59,9 @@ public class TimeLog extends Fragment {
 
     String delta1;
     String delta2;
+    View vista;
+    Activity activity;
+    Puente miPuente;
     int interruption = 0;
 
     public TimeLog() {
@@ -93,7 +98,7 @@ public class TimeLog extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View vista = inflater.inflate(R.layout.fragment_time_log, container, false);
+        vista = inflater.inflate(R.layout.fragment_time_log, container, false);
 
         arrayPhase = new ArrayList();
         arrayPhase.add("Seleccione una fase");
@@ -191,6 +196,11 @@ public class TimeLog extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof Activity){
+            this.activity=(Activity) context;
+            this.miPuente= (Puente) activity;
+
+        }
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
