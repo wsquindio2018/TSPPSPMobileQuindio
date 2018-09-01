@@ -1,6 +1,5 @@
 package com.example.worldskills.tsppspmobile.fragments_menu;
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,7 +15,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.worldskills.tsppspmobile.R;
-import com.example.worldskills.tsppspmobile.entidades.Puente;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,10 +57,7 @@ public class TimeLog extends Fragment {
 
     String delta1;
     String delta2;
-    View vista;
-    Activity activity;
-    Puente miPuente;
-    int interruption = 0;
+    String interruptionR;
 
     public TimeLog() {
         // Required empty public constructor
@@ -98,7 +93,7 @@ public class TimeLog extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        vista = inflater.inflate(R.layout.fragment_time_log, container, false);
+        View vista = inflater.inflate(R.layout.fragment_time_log, container, false);
 
         arrayPhase = new ArrayList();
         arrayPhase.add("Seleccione una fase");
@@ -160,6 +155,7 @@ public class TimeLog extends Fragment {
         startR = campoStart.getText().toString();
         stopR = campoStop.getText().toString();
         commentsR = campoComments.getText().toString();
+        interruptionR = campoInterruption.getText().toString();
     }
 
     private void asignar1() {
@@ -178,7 +174,15 @@ public class TimeLog extends Fragment {
         String fecha2 = dateFormat.format(date);
         delta2 = dateFormat.format(date);
         campoStart.setText(fecha2);
-        //calcularDelta();
+        calcularDelta();
+    }
+
+    private void calcularDelta() {
+        int dato1 = Integer.parseInt(delta1);
+        int dato2 = Integer.parseInt(delta2);
+        int datto3 = Integer.parseInt(campoInterruption.getText().toString());
+        int tiempoTotal = ((dato2-dato1)*-1)-datto3;
+        campoDelta.setText(""+tiempoTotal);
     }
 
 
@@ -196,11 +200,6 @@ public class TimeLog extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof Activity){
-            this.activity=(Activity) context;
-            this.miPuente= (Puente) activity;
-
-        }
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
