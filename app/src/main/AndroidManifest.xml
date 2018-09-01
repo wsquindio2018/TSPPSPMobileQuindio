@@ -16,12 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".actividades.MenuOpciones" />
-        <activity android:name=".actividades.Opcion" />
+        <activity android:name=".actividades.MenuOpciones"
+            android:parentActivityName=".actividades.MainActivity"/>
+        <activity android:name=".actividades.Opcion"
+            android:parentActivityName=".actividades.MenuOpciones"/>
         <activity
             android:name=".actividades.ProjectPlanSumary"
             android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:parentActivityName=".actividades.MenuOpciones"></activity>
     </application>
 
 </manifest>
