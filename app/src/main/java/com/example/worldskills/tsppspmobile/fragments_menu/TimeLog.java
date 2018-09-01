@@ -1,6 +1,8 @@
 package com.example.worldskills.tsppspmobile.fragments_menu;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,8 +15,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.worldskills.tsppspmobile.R;
+import com.example.worldskills.tsppspmobile.entidades.ProjectPrincipal;
+import com.example.worldskills.tsppspmobile.utilidades.Conexion;
+import com.example.worldskills.tsppspmobile.utilidades.Utilidades;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,11 +49,15 @@ public class TimeLog extends Fragment {
 
     //Variables y componentes
 
+    Conexion conn;
+    SQLiteDatabase bd;
+
     Spinner listaPhase;
     ArrayList arrayPhase;
-    Button registrar,btnStart,btnStop;
-    TextView campoDelta,campoStart,campoStop;
-    EditText campoInterruption,campoComments;
+    Button registrar, btnStart, btnStop;
+    TextView campoDelta, campoStart, campoStop;
+    EditText campoInterruption, campoComments;
+    int posicion;
 
     String phaseR;
     String deltaR;
@@ -58,6 +68,9 @@ public class TimeLog extends Fragment {
     String delta1;
     String delta2;
     String interruptionR;
+
+    boolean clic1 = false, clic2 = false;
+    int tiempoTotal, datto3;
 
     public TimeLog() {
         // Required empty public constructor
@@ -94,7 +107,7 @@ public class TimeLog extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_time_log, container, false);
-
+        conn = new Conexion(getContext(), "TSP", null, 1);
         arrayPhase = new ArrayList();
         arrayPhase.add("Seleccione una fase");
         arrayPhase.add("PLAN");
@@ -122,22 +135,29 @@ public class TimeLog extends Fragment {
             @Override
             public void onClick(View v) {
                 asignar1();
+                clic1 = true;
             }
         });
-        btnStop  = vista.findViewById(R.id.btnStopTime);
+        btnStop = vista.findViewById(R.id.btnStopTime);
         btnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                asignar2();
+                if (campoInterruption.getText().toString().equals("")) {
+                    Toast.makeText(getContext(), "Debe llenar el campo Interrupcion", Toast.LENGTH_SHORT).show();
+                } else {
+                    asignar2();
+                    clic2 = true;
+                }
             }
         });
         listaPhase = vista.findViewById(R.id.spinnerPhase);
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(getContext(),R.layout.support_simple_spinner_dropdown_item,arrayPhase);
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(getContext(), R.layout.support_simple_spinner_dropdown_item, arrayPhase);
         listaPhase.setAdapter(adapter);
         listaPhase.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != 0){
+                if (position != 0) {
+                    posicion = position;
                     phaseR = arrayPhase.get(position).toString();
                 }
             }
@@ -163,7 +183,7 @@ public class TimeLog extends Fragment {
         SimpleDateFormat dat = new SimpleDateFormat("mm", Locale.getDefault());
         Date date = new Date();
         String fecha1 = dateFormat.format(date);
-        delta1 = dateFormat.format(date);
+        delta1 = dat.format(date);
         campoStart.setText(fecha1);
     }
 
@@ -172,22 +192,52 @@ public class TimeLog extends Fragment {
         SimpleDateFormat dat = new SimpleDateFormat("mm", Locale.getDefault());
         Date date = new Date();
         String fecha2 = dateFormat.format(date);
-        delta2 = dateFormat.format(date);
-        campoStart.setText(fecha2);
+        delta2 = dat.format(date);
+        campoStop.setText(fecha2);
         calcularDelta();
     }
 
     private void calcularDelta() {
         int dato1 = Integer.parseInt(delta1);
         int dato2 = Integer.parseInt(delta2);
-        int datto3 = Integer.parseInt(campoInterruption.getText().toString());
-        int tiempoTotal = ((dato2-dato1)*-1)-datto3;
-        campoDelta.setText(""+tiempoTotal);
+        datto3 = Integer.parseInt(campoInterruption.getText().toString());
+        tiempoTotal = ((dato2 - dato1)) - datto3;
+        if (datto3 > tiempoTotal) {
+            Toast.makeText(getContext(), "El campo interrupcion debe ser menor al tiempo de la fase", Toast.LENGTH_SHORT).show();
+        } else {
+            campoDelta.setText("" + tiempoTotal);
+        }
     }
 
 
     private void registrarTime() {
+        bd = conn.getWritableDatabase();
+        if (posicion != 0 || campoInterruption.getText().toString().equals("") || clic1 == false || clic2 == false) {
+            Toast.makeText(getContext(), "Verifique que los campos estan llenos", Toast.LENGTH_SHORT).show();
+        } else {
+            ContentValues values = new ContentValues();
 
+            values.put(Utilidades.CAMPO_ID_TIME, ProjectPrincipal.id);
+            values.put(Utilidades.CAMPO_PHASE, phaseR);
+            values.put(Utilidades.CAMPO_INTERRUPTION, datto3);
+            values.put(Utilidades.CAMPO_START, startR);
+            values.put(Utilidades.CAMPO_STOP, stopR);
+            values.put(Utilidades.CAMPO_DELTA, deltaR);
+            values.put(Utilidades.CAMPO_COMMENTS, commentsR);
+
+            bd.insert(Utilidades.TABLA_TIME_LOG,Utilidades.CAMPO_ID_TIME,values);
+            limpiar();
+        }
+
+    }
+
+    private void limpiar() {
+        clic1=false;
+        clic2=false;
+        campoInterruption.setText(null);
+        campoStop.setText(null);
+        campoStart.setText(null);
+        campoComments.setText(null);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

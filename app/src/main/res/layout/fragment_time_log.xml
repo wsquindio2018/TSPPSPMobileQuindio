@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".fragments_menu.TimeLog">
 
-    <!-- TODO: Update blank fragment layout -->
 
     <EditText
         android:id="@+id/campoCommentsTime"
@@ -13,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="74dp"
+        android:layout_marginBottom="94dp"
         android:gravity="center_vertical"
         android:hint="Motivo de la interrupcion"
         android:inputType="textMultiLine"
@@ -27,64 +26,82 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="40dp" />
 
-    <Button
-        android:id="@+id/btnStartTime"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="98dp"
-        android:text="Start" />
+        android:layout_marginTop="82dp"
+        android:layout_weight="2"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/campoStartTime"
-        android:layout_width="251dp"
-        android:gravity="center_vertical"
-        android:layout_height="43dp"
-        android:layout_alignBottom="@+id/btnStartTime"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="22dp" />
+        <Button
+            android:id="@+id/btnStartTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start" />
+
+        <TextView
+            android:id="@+id/campoStartTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/btnStartTime"
+            android:gravity="center_vertical"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="20dp" />
+    </LinearLayout>
 
     <EditText
         android:id="@+id/campoInterruptionTime2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:gravity="center_vertical"
         android:layout_alignParentTop="true"
         android:layout_marginTop="173dp"
+        android:gravity="center_vertical"
         android:hint="Ingrese el tiempod e interrupcion"
         android:inputType="number"
         android:textAlignment="center" />
 
-    <Button
-        android:id="@+id/btnStopTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="219dp"
-        android:text="Stop" />
 
-    <TextView
-        android:id="@+id/campoStopTime"
-        android:layout_width="255dp"
-        android:layout_height="40dp"
-        android:gravity="center_vertical"
-        android:layout_alignStart="@+id/campoStartTime"
-        android:layout_alignTop="@+id/btnStopTime" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_weight="2"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnStopTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stop" />
+
+        <TextView
+            android:id="@+id/campoStopTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/campoStartTime"
+            android:layout_alignTop="@+id/btnStopTime"
+            android:gravity="center_vertical"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="20dp" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/campoDeltaTime"
-        android:layout_width="326dp"
-        android:layout_height="45dp"
-        android:layout_alignEnd="@+id/btnStartTime"
-        android:textAlignment="center"
-        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="137dp"
-        android:layout_marginEnd="-268dp"
-        android:text="Tiempo delta" />
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="162dp"
+        android:gravity="center_vertical"
+        android:text="0"
+        android:textAlignment="center"
+        android:textSize="20dp" />
 
     <Button
         android:id="@+id/btnRegistrarTime"
