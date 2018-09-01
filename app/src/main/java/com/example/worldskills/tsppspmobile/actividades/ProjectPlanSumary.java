@@ -1,5 +1,6 @@
 package com.example.worldskills.tsppspmobile.actividades;
 
+import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,8 +21,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.worldskills.tsppspmobile.R;
+import com.example.worldskills.tsppspmobile.entidades.AllFragments;
+import com.example.worldskills.tsppspmobile.fragments_sumary.PhaseInjected;
+import com.example.worldskills.tsppspmobile.fragments_sumary.PhaseRemoved;
+import com.example.worldskills.tsppspmobile.fragments_sumary.TimeInPhase;
 
-public class ProjectPlanSumary extends AppCompatActivity {
+public class ProjectPlanSumary extends AppCompatActivity implements AllFragments {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -93,6 +98,11 @@ public class ProjectPlanSumary extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -140,14 +150,24 @@ public class ProjectPlanSumary extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            switch (position){
+                case 0:
+                    TimeInPhase time = new TimeInPhase();
+                    return time;
+
+                case 1:
+                    PhaseInjected injected = new PhaseInjected();
+                    return injected;
+
+                case 2:
+                    PhaseRemoved removed = new PhaseRemoved();
+                    return removed;
+            }
+            return null;
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
             return 3;
         }
     }
