@@ -1,8 +1,11 @@
 package com.example.worldskills.tsppspmobile.fragments_menu;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +16,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.worldskills.tsppspmobile.R;
+import com.example.worldskills.tsppspmobile.entidades.ProjectPrincipal;
+import com.example.worldskills.tsppspmobile.utilidades.Conexion;
+import com.example.worldskills.tsppspmobile.utilidades.Utilidades;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,10 +48,13 @@ public class DefectLog extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    ArrayList arrayType,arrayInjected,arrayRemoved;
-    Button btnDate,btnStartDefect,btnStopDefect,btnRestartDefect,btnRegistrar;
-    Spinner listaType,listaInjected,listaRemoved;
-    TextView campoDate,campoFixTime;
+    Conexion conn;
+    SQLiteDatabase bd;
+    int posicion1, posicion2, posicion3;
+    ArrayList arrayType, arrayInjected, arrayRemoved;
+    Button btnDate, btnStartDefect, btnStopDefect, btnRestartDefect, btnRegistrar;
+    Spinner listaType, listaInjected, listaRemoved;
+    TextView campoDate, campoFixTime;
     EditText campoDefectDescription;
 
     String typeR;
@@ -53,6 +63,9 @@ public class DefectLog extends Fragment {
     String dateR;
     String fixTimeR;
     String defectDescriptionR;
+    CountDownTimer timer;
+    int tiempoReal = 0, pausa, tiempoMinutos = 0;
+    boolean start = false, restart, stop;
 
     public DefectLog() {
         // Required empty public constructor
@@ -90,6 +103,7 @@ public class DefectLog extends Fragment {
                              Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_defect_log, container, false);
         arrayType = new ArrayList();
+        conn = new Conexion(getContext(), "TSP", null, 1);
         arrayType.add("Type");
         arrayType.add("Documentation");
         arrayType.add("Syntax");
@@ -104,7 +118,7 @@ public class DefectLog extends Fragment {
         arrayType.add("Environment");
 
         arrayInjected = new ArrayList();
-        arrayType.add("Phase injected");
+        arrayInjected.add("Phase injected");
         arrayInjected.add("PLAN");
         arrayInjected.add("DLD");
         arrayInjected.add("CODE");
@@ -113,7 +127,7 @@ public class DefectLog extends Fragment {
         arrayInjected.add("PM");
 
         arrayRemoved = new ArrayList();
-        arrayType.add("Phase removed");
+        arrayRemoved.add("Phase removed");
         arrayRemoved.add("PLAN");
         arrayRemoved.add("DLD");
         arrayRemoved.add("CODE");
@@ -126,9 +140,9 @@ public class DefectLog extends Fragment {
         listaInjected = vista.findViewById(R.id.spinnerInjected);
         listaRemoved = vista.findViewById(R.id.spinnerRemoved);
 
-        ArrayAdapter <CharSequence> adapterType = new ArrayAdapter(getContext(),R.layout.support_simple_spinner_dropdown_item,arrayType);
-        ArrayAdapter <CharSequence> adapterInjected = new ArrayAdapter(getContext(),R.layout.support_simple_spinner_dropdown_item,arrayInjected);
-        ArrayAdapter <CharSequence> adapterRemoved = new ArrayAdapter(getContext(),R.layout.support_simple_spinner_dropdown_item,arrayRemoved);
+        ArrayAdapter<CharSequence> adapterType = new ArrayAdapter(getContext(), R.layout.support_simple_spinner_dropdown_item, arrayType);
+        ArrayAdapter<CharSequence> adapterInjected = new ArrayAdapter(getContext(), R.layout.support_simple_spinner_dropdown_item, arrayInjected);
+        ArrayAdapter<CharSequence> adapterRemoved = new ArrayAdapter(getContext(), R.layout.support_simple_spinner_dropdown_item, arrayRemoved);
 
         listaType.setAdapter(adapterType);
         listaInjected.setAdapter(adapterInjected);
@@ -137,8 +151,9 @@ public class DefectLog extends Fragment {
         listaType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != 0){
+                if (position != 0) {
                     typeR = arrayType.get(position).toString();
+                    posicion1 = position;
                 }
             }
 
@@ -151,8 +166,9 @@ public class DefectLog extends Fragment {
         listaInjected.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != 0){
+                if (position != 0) {
                     phaseInjectedR = arrayInjected.get(position).toString();
+                    posicion2 = position;
                 }
             }
 
@@ -165,8 +181,9 @@ public class DefectLog extends Fragment {
         listaRemoved.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != 0){
+                if (position != 0) {
                     phaseRemovedR = arrayRemoved.get(position).toString();
+                    posicion3 = position;
                 }
             }
 
@@ -179,14 +196,8 @@ public class DefectLog extends Fragment {
 
         campoDate = vista.findViewById(R.id.campoDateDefect);
         btnDate = vista.findViewById(R.id.btnDateDefect);
-        btnDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                asignar();
-            }
-        });
         btnStartDefect = vista.findViewById(R.id.btnStartDefect);
-        btnStopDefect = vista.findViewById(R.id.btnRestartDefect);
+        btnStopDefect = vista.findViewById(R.id.btnStopDefect);
         btnRegistrar = vista.findViewById(R.id.btnRegistrarDefect);
         campoFixTime = vista.findViewById(R.id.campoFixtime);
         campoDefectDescription = vista.findViewById(R.id.campoDefectDescription);
@@ -196,13 +207,105 @@ public class DefectLog extends Fragment {
                 registratDefect();
             }
         });
+        btnRestartDefect = vista.findViewById(R.id.btnRestartDefect);
 
 
+        btnDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                asignar();
+                restart = true;
+            }
+        });
+
+        btnStopDefect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (start == true) {
+                    stop = true;
+                    timer.cancel();
+                    pausa = tiempoReal;
+                    campoFixTime.setText(" "+ tiempoReal + " Segundos");
+                } else {
+                    Toast.makeText(getContext(), "Inicie el tiempo", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        btnRestartDefect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (start == true) {
+                    tiempoReal = 0;
+                    start = false;
+                    campoFixTime.setText(" " + 0);
+                    timer.cancel();
+                } else {
+                    Toast.makeText(getContext(), "Inicie el tiempo", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        btnStartDefect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (start == true) {
+                    if (stop == true) {
+                        timer.start();
+                        tiempoReal = pausa;
+                        stop = false;
+                    }
+                } else {
+                    empezarTiempo();
+                    start = true;
+                }
+            }
+        });
         return vista;
     }
 
-    private void registratDefect() {
+    private void empezarTiempo() {
+        timer = new CountDownTimer(200000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                tiempoReal++;
+                campoFixTime.setText(" " + tiempoReal + " Segundos");
+            }
 
+            @Override
+            public void onFinish() {
+
+            }
+        };
+        timer.start();
+    }
+
+    private void registratDefect() {
+        bd = conn.getWritableDatabase();
+        if (posicion1 == 0 || posicion2 == 0 || posicion3 == 0 || campoDefectDescription.getText().toString().equals("") || start == false || restart == false || tiempoReal < 60) {
+            Toast.makeText(getContext(), "Verifique que los campos estan llenos o que el tiempo sea mayor a 60 ", Toast.LENGTH_SHORT).show();
+        } else {
+
+            ContentValues values = new ContentValues();
+
+            values.put(Utilidades.CAMPO_ID_TIME, ProjectPrincipal.id);
+            values.put(Utilidades.CAMPO_DATE, campoDate.getText().toString());
+            values.put(Utilidades.CAMPO_TYPE, typeR);
+            values.put(Utilidades.CAMPO_PAHESE_INJECTED, phaseInjectedR);
+            values.put(Utilidades.CAMPO_PHASE_REMOVE, phaseRemovedR);
+            values.put(Utilidades.CAMPO_FIX, tiempoReal/60);
+            values.put(Utilidades.CAMPO_DEFECT_DESCRIPTION, campoDefectDescription.getText().toString());
+
+            bd.insert(Utilidades.TABLA_TIME_LOG, Utilidades.CAMPO_ID_TIME, values);
+            Toast.makeText(getContext(), "Registro exitoso", Toast.LENGTH_SHORT).show();
+            limpiar();
+        }
+    }
+
+    private void limpiar() {
+        campoDate.setText(null);
+        campoFixTime.setText("0");
+        campoDefectDescription.setText(null);
     }
 
     private void asignar() {

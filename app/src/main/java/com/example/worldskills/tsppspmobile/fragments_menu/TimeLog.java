@@ -229,6 +229,7 @@ public class TimeLog extends Fragment {
             values.put(Utilidades.CAMPO_COMMENTS, commentsR);
 
             bd.insert(Utilidades.TABLA_TIME_LOG, Utilidades.CAMPO_ID_TIME, values);
+            Toast.makeText(getContext(), "Registro exitoso", Toast.LENGTH_SHORT).show();
             limpiar();
         }
 
