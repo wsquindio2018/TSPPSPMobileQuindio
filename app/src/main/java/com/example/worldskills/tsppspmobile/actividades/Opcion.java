@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.example.worldskills.tsppspmobile.R;
 import com.example.worldskills.tsppspmobile.entidades.AllFragments;
 import com.example.worldskills.tsppspmobile.entidades.Puente;
+import com.example.worldskills.tsppspmobile.fragments_menu.DefectLog;
 import com.example.worldskills.tsppspmobile.fragments_menu.TimeLog;
 
 public class Opcion extends AppCompatActivity implements Puente, AllFragments {
@@ -26,7 +27,7 @@ public class Opcion extends AppCompatActivity implements Puente, AllFragments {
                 fragment = new TimeLog();
                 break;
             case 2:
-                fragment = new TimeLog();
+                fragment = new DefectLog();
                 break;
         }
 

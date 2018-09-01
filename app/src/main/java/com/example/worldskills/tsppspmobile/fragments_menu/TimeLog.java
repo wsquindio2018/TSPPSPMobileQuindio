@@ -1,5 +1,6 @@
 package com.example.worldskills.tsppspmobile.fragments_menu;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -213,9 +214,10 @@ public class TimeLog extends Fragment {
 
     private void registrarTime() {
         bd = conn.getWritableDatabase();
-        if (posicion != 0 || campoInterruption.getText().toString().equals("") || clic1 == false || clic2 == false) {
+        if (posicion == 0 || campoInterruption.getText().toString().equals("") || clic1 == false || clic2 == false) {
             Toast.makeText(getContext(), "Verifique que los campos estan llenos", Toast.LENGTH_SHORT).show();
         } else {
+
             ContentValues values = new ContentValues();
 
             values.put(Utilidades.CAMPO_ID_TIME, ProjectPrincipal.id);
@@ -226,15 +228,16 @@ public class TimeLog extends Fragment {
             values.put(Utilidades.CAMPO_DELTA, deltaR);
             values.put(Utilidades.CAMPO_COMMENTS, commentsR);
 
-            bd.insert(Utilidades.TABLA_TIME_LOG,Utilidades.CAMPO_ID_TIME,values);
+            bd.insert(Utilidades.TABLA_TIME_LOG, Utilidades.CAMPO_ID_TIME, values);
             limpiar();
         }
 
     }
 
+
     private void limpiar() {
-        clic1=false;
-        clic2=false;
+        clic1 = false;
+        clic2 = false;
         campoInterruption.setText(null);
         campoStop.setText(null);
         campoStart.setText(null);
