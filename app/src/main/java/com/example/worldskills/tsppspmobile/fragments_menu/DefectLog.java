@@ -90,6 +90,7 @@ public class DefectLog extends Fragment {
                              Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_defect_log, container, false);
         arrayType = new ArrayList();
+        arrayType.add("Type");
         arrayType.add("Documentation");
         arrayType.add("Syntax");
         arrayType.add("Build");
@@ -103,6 +104,7 @@ public class DefectLog extends Fragment {
         arrayType.add("Environment");
 
         arrayInjected = new ArrayList();
+        arrayType.add("Phase injected");
         arrayInjected.add("PLAN");
         arrayInjected.add("DLD");
         arrayInjected.add("CODE");
@@ -111,6 +113,7 @@ public class DefectLog extends Fragment {
         arrayInjected.add("PM");
 
         arrayRemoved = new ArrayList();
+        arrayType.add("Phase removed");
         arrayRemoved.add("PLAN");
         arrayRemoved.add("DLD");
         arrayRemoved.add("CODE");
