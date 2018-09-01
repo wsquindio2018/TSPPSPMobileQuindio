@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<ProjectVo> list;
     int id=0;
     String campoNombre;
+    //////holaaaa
     AdapterProyect adapterProyect;
 
     @Override
