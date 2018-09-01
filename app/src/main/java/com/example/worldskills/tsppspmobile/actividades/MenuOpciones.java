@@ -1,7 +1,9 @@
-package com.example.worldskills.tsppspmobile;
+package com.example.worldskills.tsppspmobile.actividades;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.worldskills.tsppspmobile.R;
 
 public class MenuOpciones extends AppCompatActivity {
 
