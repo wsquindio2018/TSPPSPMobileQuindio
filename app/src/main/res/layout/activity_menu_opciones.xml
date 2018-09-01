@@ -5,35 +5,46 @@
     android:id="@+id/menuOpcionesContenedor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     tools:context=".actividades.MenuOpciones">
 
+
+    <ImageView
+        android:layout_width="222dp"
+        android:layout_height="222dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/logo" />
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="63dp"
         android:orientation="vertical"
         tools:context=".actividades.MenuOpciones">
 
         <Button
             android:id="@+id/btnTimeLog"
             android:layout_width="245dp"
-            android:layout_height="wrap_content"
-            android:onClick="onClick"
-            android:text="TimeLog" />
+            android:layout_height="45dp"
+            android:background="@drawable/boton_time"
+            android:onClick="onClick" />
 
         <Button
             android:id="@+id/btnDefectLog"
             android:layout_width="245dp"
-            android:layout_height="wrap_content"
-            android:onClick="onClick"
-            android:text="Defect Log" />
+            android:layout_height="45dp"
+            android:background="@drawable/boton_defect"
+            android:onClick="onClick" />
 
         <Button
             android:id="@+id/btnPlanSumary"
             android:layout_width="245dp"
-            android:layout_height="wrap_content"
-            android:onClick="onClick"
-            android:text="Project Plan sumary" />
+            android:layout_height="45dp"
+            android:background="@drawable/boton_project"
+            android:onClick="onClick" />
 
 
     </LinearLayout>

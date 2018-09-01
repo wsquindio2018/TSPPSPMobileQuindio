@@ -18,9 +18,9 @@
 
         <Button
             android:id="@+id/btnDateDefect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Date" />
+            android:layout_width="122dp"
+            android:background="@drawable/boton_date"
+            android:layout_height="40dp" />
 
         <TextView
             android:id="@+id/campoDateDefect"
@@ -74,24 +74,24 @@
         android:orientation="horizontal">
 
         <Button
-            android:layout_marginRight="50dp"
+            android:layout_marginRight="20dp"
             android:id="@+id/btnStartDefect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Start" />
+            android:layout_width="110dp"
+            android:background="@drawable/boton_start"
+            android:layout_height="40dp" />
 
         <Button
-            android:layout_marginRight="50dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/boton_stop"
             android:id="@+id/btnStopDefect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Stop" />
+            android:layout_width="110dp"
+            android:layout_height="40dp" />
 
         <Button
             android:id="@+id/btnRestartDefect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Restart" />
+            android:layout_width="110dp"
+            android:background="@drawable/boton_restart"
+            android:layout_height="40dp" />
     </LinearLayout>
 
     <EditText
@@ -109,9 +109,9 @@
 
     <Button
         android:id="@+id/btnRegistrarDefect"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:text="Registrar" />
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/boton_registrar" />
 </RelativeLayout>

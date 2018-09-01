@@ -37,9 +37,9 @@
 
         <Button
             android:id="@+id/btnStartTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Start" />
+            android:layout_width="110dp"
+            android:background="@drawable/boton_start"
+            android:layout_height="40dp" />
 
         <TextView
             android:id="@+id/campoStartTime"
@@ -75,9 +75,9 @@
 
         <Button
             android:id="@+id/btnStopTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Stop" />
+            android:layout_width="110dp"
+            android:layout_height="40dp"
+            android:background="@drawable/boton_stop"/>
 
         <TextView
             android:id="@+id/campoStopTime"
@@ -105,10 +105,10 @@
 
     <Button
         android:id="@+id/btnRegistrarTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:text="Registrar" />
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/boton_registrar" />
 
 </RelativeLayout>
