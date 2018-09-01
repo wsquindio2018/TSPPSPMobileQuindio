@@ -7,6 +7,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.worldskills.tsppspmobile.R;
 
@@ -29,6 +32,11 @@ public class TimeInPhase extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    TextView tiempoPlan,tiempoDld,tiempoCode,tiempoCompile,tiempoUt,tiempoPm;
+    TextView porcentajePlan,porcentajeDld,porcentajeCode,porcentajeCompile,porcentajeUt,porcentajePm;
+    Button registrarTiempo;
+    EditText campoTiempo;
 
     public TimeInPhase() {
         // Required empty public constructor
@@ -64,8 +72,27 @@ public class TimeInPhase extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_time_in_phase, container, false);
+        View vista = inflater.inflate(R.layout.fragment_time_in_phase, container, false);
+
+        //campios donde se muestra el tiempo transcurrido en cada fase
+
+        tiempoPlan = vista.findViewById(R.id.planTiempo);
+        tiempoDld = vista.findViewById(R.id.dldTiempo);
+        tiempoCode = vista.findViewById(R.id.codeTiempo);
+        tiempoCompile = vista.findViewById(R.id.compileTiempo);
+        tiempoUt = vista.findViewById(R.id.utTiempo);
+        tiempoPm = vista.findViewById(R.id.pmTiempo);
+
+        porcentajePlan = vista.findViewById(R.id.planProcentaje);
+        porcentajeDld = vista.findViewById(R.id.dldProcentaje);
+        porcentajeCode = vista.findViewById(R.id.codeProcentaje);
+        porcentajeCompile = vista.findViewById(R.id.compileProcentaje);
+        porcentajeUt = vista.findViewById(R.id.utProcentaje);
+        porcentajePm = vista.findViewById(R.id.pmProcentaje);
+
+        registrarTiempo = vista.findViewById(R.id.btntRegistrarTiempo);
+        campoTiempo = vista.findViewById(R.id.campoTiempoSumary);
+        return vista;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
