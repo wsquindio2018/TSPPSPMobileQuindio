@@ -7,8 +7,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.worldskills.tsppspmobile.R;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +38,19 @@ public class DefectLog extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    ArrayList arrayType,arrayInjected,arrayRemoved;
+    Button btnDate,btnStartDefect,btnStopDefect,btnRestartDefect,btnRegistrar;
+    Spinner listaType,listaInjected,listaRemoved;
+    TextView campoDate,fixTime;
+    EditText defectDescription;
+
+    String typeR;
+    String phaseInjectedR;
+    String phaseRemovedR;
+    String dateR;
+    String fixTimeR;
+    String defectDescriptionR;
 
     public DefectLog() {
         // Required empty public constructor
@@ -64,8 +86,57 @@ public class DefectLog extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_defect_log, container, false);
+        View vista = inflater.inflate(R.layout.fragment_defect_log, container, false);
+        arrayType = new ArrayList();
+        arrayType.add("Documentation");
+        arrayType.add("Syntax");
+        arrayType.add("Build");
+        arrayType.add("Pakage");
+        arrayType.add("Assigment");
+        arrayType.add("Interface");
+        arrayType.add("Checking");
+        arrayType.add("Data");
+        arrayType.add("Function");
+        arrayType.add("System");
+        arrayType.add("Environment");
+
+        arrayInjected = new ArrayList();
+        arrayInjected.add("PLAN");
+        arrayInjected.add("DLD");
+        arrayInjected.add("CODE");
+        arrayInjected.add("COMPILE");
+        arrayInjected.add("UT");
+        arrayInjected.add("PM");
+
+        arrayRemoved = new ArrayList();
+        arrayRemoved.add("PLAN");
+        arrayRemoved.add("DLD");
+        arrayRemoved.add("CODE");
+        arrayRemoved.add("COMPILE");
+        arrayRemoved.add("UT");
+        arrayRemoved.add("PM");
+
+        campoDate = vista.findViewById(R.id.campoDateDefect);
+        btnDate = vista.findViewById(R.id.btnDateDefect);
+        btnDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                asignar();
+            }
+        });
+        btnStartDefect = vista.findViewById(R.id.btnStartDefect);
+        btnStopDefect = vista.findViewById(R.id.btnRestartDefect);
+
+
+
+        return vista;
+    }
+
+    private void asignar() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date = new Date();
+        String fecha = dateFormat.format(date);
+        campoDate.setText(fecha);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

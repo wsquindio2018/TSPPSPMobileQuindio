@@ -176,6 +176,7 @@ public class TimeLog extends Fragment {
         stopR = campoStop.getText().toString();
         commentsR = campoComments.getText().toString();
         interruptionR = campoInterruption.getText().toString();
+        deltaR = campoDelta.getText().toString();
     }
 
     private void asignar1() {
