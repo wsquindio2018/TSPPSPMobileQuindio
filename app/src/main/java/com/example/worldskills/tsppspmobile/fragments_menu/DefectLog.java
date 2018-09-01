@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -42,8 +44,8 @@ public class DefectLog extends Fragment {
     ArrayList arrayType,arrayInjected,arrayRemoved;
     Button btnDate,btnStartDefect,btnStopDefect,btnRestartDefect,btnRegistrar;
     Spinner listaType,listaInjected,listaRemoved;
-    TextView campoDate,fixTime;
-    EditText defectDescription;
+    TextView campoDate,campoFixTime;
+    EditText campoDefectDescription;
 
     String typeR;
     String phaseInjectedR;
@@ -116,6 +118,62 @@ public class DefectLog extends Fragment {
         arrayRemoved.add("UT");
         arrayRemoved.add("PM");
 
+
+        listaType = vista.findViewById(R.id.spinnerType);
+        listaInjected = vista.findViewById(R.id.spinnerInjected);
+        listaRemoved = vista.findViewById(R.id.spinnerRemoved);
+
+        ArrayAdapter <CharSequence> adapterType = new ArrayAdapter(getContext(),R.layout.support_simple_spinner_dropdown_item,arrayType);
+        ArrayAdapter <CharSequence> adapterInjected = new ArrayAdapter(getContext(),R.layout.support_simple_spinner_dropdown_item,arrayInjected);
+        ArrayAdapter <CharSequence> adapterRemoved = new ArrayAdapter(getContext(),R.layout.support_simple_spinner_dropdown_item,arrayRemoved);
+
+        listaType.setAdapter(adapterType);
+        listaInjected.setAdapter(adapterInjected);
+        listaRemoved.setAdapter(adapterRemoved);
+
+        listaType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != 0){
+                    typeR = arrayType.get(position).toString();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        listaInjected.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != 0){
+                    phaseInjectedR = arrayInjected.get(position).toString();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        listaRemoved.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != 0){
+                    phaseRemovedR = arrayRemoved.get(position).toString();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
         campoDate = vista.findViewById(R.id.campoDateDefect);
         btnDate = vista.findViewById(R.id.btnDateDefect);
         btnDate.setOnClickListener(new View.OnClickListener() {
@@ -126,16 +184,29 @@ public class DefectLog extends Fragment {
         });
         btnStartDefect = vista.findViewById(R.id.btnStartDefect);
         btnStopDefect = vista.findViewById(R.id.btnRestartDefect);
-
+        btnRegistrar = vista.findViewById(R.id.btnRegistrarDefect);
+        campoFixTime = vista.findViewById(R.id.campoFixtime);
+        campoDefectDescription = vista.findViewById(R.id.campoDefectDescription);
+        btnRegistrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registratDefect();
+            }
+        });
 
 
         return vista;
+    }
+
+    private void registratDefect() {
+
     }
 
     private void asignar() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd HH:mm:ss", Locale.getDefault());
         Date date = new Date();
         String fecha = dateFormat.format(date);
+        dateR = fecha;
         campoDate.setText(fecha);
     }
 
